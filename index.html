@@ -29,7 +29,7 @@
 <body>
 <header>
   <h1>RootShell — icon variants</h1>
-  <p class="lede">√~ — sixteen colorways. Geometry shared from <code>src/geometry.js</code>; colors from <code>src/variants.js</code>.</p>
+  <p class="lede">√~ — twelve terminal-theme colorways. Geometry shared from <code>src/geometry.js</code>; colors from <code>src/variants.js</code>.</p>
 </header>
 <div class="grid" id="grid"></div>
 <footer>Run <code>npm run build</code> in the repo root to render PNG iconsets for all variants.</footer>
@@ -54,7 +54,6 @@ for (const v of VARIANTS) {
     </div>
     <div class="swatches">
       <div class="sw" style="background:${v.bg}" title="bg ${v.bg}"></div>
-      <div class="sw" style="background:${v.bgEnd}" title="bgEnd ${v.bgEnd}"></div>
       <div class="sw" style="background:${v.stroke}" title="stroke ${v.stroke}"></div>
       ${v.tildeStroke ? `<div class="sw" style="background:${v.tildeStroke}" title="tildeStroke ${v.tildeStroke}"></div>` : ''}
     </div>`;

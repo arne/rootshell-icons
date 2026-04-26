@@ -1,21 +1,17 @@
-// 16 colorway variants of the RootShell mark.
-// Each entry: { id, name, bg, bgEnd, stroke, tildeStroke? }
+// 12 terminal-theme colorway variants of the RootShell mark.
+// Each entry: { id, name, bg, stroke, tildeStroke? }
 
 export const VARIANTS = [
-  { id: '01-cream-ink',         name: 'Cream / ink',                 bg: '#16140f', bgEnd: '#0a0907', stroke: '#ebe3d0' },
-  { id: '02-bone-charcoal',     name: 'Bone / charcoal',             bg: '#1f1d1a', bgEnd: '#15130f', stroke: '#f4efe1' },
-  { id: '03-phosphor-green',    name: 'Phosphor green',              bg: '#0a1410', bgEnd: '#050a08', stroke: '#7fcfa3' },
-  { id: '04-amber-crt',         name: 'Amber CRT',                   bg: '#120e08', bgEnd: '#0a0805', stroke: '#e8a662' },
-  { id: '05-cyan-dusk',         name: 'Cyan dusk',                   bg: '#0c1418', bgEnd: '#070b0e', stroke: '#7fc4d8' },
-  { id: '06-magenta-noir',      name: 'Magenta noir',                bg: '#160f16', bgEnd: '#0c070c', stroke: '#d99cc8' },
-  { id: '07-cream-amber',       name: 'Cream √ · amber ~',           bg: '#16140f', bgEnd: '#0a0907', stroke: '#ebe3d0', tildeStroke: '#e8a662' },
-  { id: '08-cream-phosphor',    name: 'Cream √ · phosphor ~',        bg: '#16140f', bgEnd: '#0a0907', stroke: '#ebe3d0', tildeStroke: '#7fcfa3' },
-  { id: '09-cream-coral',       name: 'Cream √ · coral ~',           bg: '#16140f', bgEnd: '#0a0907', stroke: '#ebe3d0', tildeStroke: '#d97757' },
-  { id: '10-bone-cyan',         name: 'Bone √ · cyan ~',             bg: '#1a1e22', bgEnd: '#0e1115', stroke: '#e6e8ec', tildeStroke: '#7fc4d8' },
-  { id: '11-slate-cream',       name: 'Slate √ · cream ~',           bg: '#1a1d22', bgEnd: '#0d0f12', stroke: '#6b7480', tildeStroke: '#ebe3d0' },
-  { id: '12-indigo-saffron',    name: 'Indigo / saffron',            bg: '#0f1224', bgEnd: '#070817', stroke: '#c8b890', tildeStroke: '#e8a662' },
-  { id: '13-ink-on-cream',      name: 'Ink on cream',                bg: '#f3ede0', bgEnd: '#e6dcc4', stroke: '#1a1612' },
-  { id: '14-cream-coral-light', name: 'Cream · coral ~ (light)',     bg: '#f3ede0', bgEnd: '#e6dcc4', stroke: '#1a1612', tildeStroke: '#c96442' },
-  { id: '15-sage-ink',          name: 'Sage · ink',                  bg: '#dfe4d8', bgEnd: '#c5cdb9', stroke: '#243024' },
-  { id: '16-paper-slate',       name: 'Paper · slate / terra ~',     bg: '#ecebe7', bgEnd: '#d9d6cf', stroke: '#3a4250', tildeStroke: '#a06a4f' },
+  { id: '01-solarized-dark',  name: 'Solarized Dark',  bg: '#002b36', stroke: '#93a1a1', tildeStroke: '#b58900' },
+  { id: '02-solarized-light', name: 'Solarized Light', bg: '#fdf6e3', stroke: '#586e75', tildeStroke: '#cb4b16' },
+  { id: '03-dracula',         name: 'Dracula',         bg: '#282a36', stroke: '#f8f8f2', tildeStroke: '#bd93f9' },
+  { id: '04-nord',            name: 'Nord',            bg: '#2e3440', stroke: '#eceff4', tildeStroke: '#88c0d0' },
+  { id: '05-gruvbox-dark',    name: 'Gruvbox Dark',    bg: '#282828', stroke: '#ebdbb2', tildeStroke: '#fabd2f' },
+  { id: '06-tokyo-night',     name: 'Tokyo Night',     bg: '#1a1b26', stroke: '#c0caf5', tildeStroke: '#bb9af7' },
+  { id: '07-catppuccin',      name: 'Catppuccin',      bg: '#1e1e2e', stroke: '#cdd6f4', tildeStroke: '#fab387' },
+  { id: '08-bases',           name: 'Bases',           bg: '#141210', stroke: '#4a4640', tildeStroke: '#48a068' },
+  { id: '09-mono-light',      name: 'Mono Light',      bg: '#f5f1ea', stroke: '#7a756c', tildeStroke: '#1a1a1a' },
+  { id: '10-monokai',         name: 'Monokai',         bg: '#272822', stroke: '#a6e22e', tildeStroke: '#fd971f' },
+  { id: '11-mono-dark',       name: 'Mono Dark',       bg: '#0e0e0e', stroke: '#5a5a5a', tildeStroke: '#e8e6e0' },
+  { id: '12-rose-pine',       name: 'Rosé Pine',       bg: '#232136', stroke: '#e0def4', tildeStroke: '#ea9a97' },
 ];

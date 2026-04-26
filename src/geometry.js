@@ -4,19 +4,19 @@
 export const GEOMETRY = {
   // Radical — checkmark + vinculum (top bar).
   // Path: tickStart → tickBottom → peak → vincEnd
-  tickStartX: 14,  tickStartY: 60,
-  tickBottomX: 22, tickBottomY: 82,
-  peakX: 36,       peakY: 14,
-  vincEndX: 60,    vincEndY: 14,
+  tickStartX: 12,  tickStartY: 61,
+  tickBottomX: 22, tickBottomY: 77,
+  peakX: 36,       peakY: 20,
+  vincEndX: 58,    vincEndY: 20,
 
   // Tilde — sine wave centered at (tildeCenterX, tildeCenterY).
   tildeCenterX: 56,
-  tildeCenterY: 52,
+  tildeCenterY: 51,
   tildeWidth: 33,
   tildeAmp: 8,
 
   // Stroke
-  strokeWidth: 5,
+  strokeWidth: 6,
 };
 
 // SVG path string for the radical (sans-serif, no terminal flares).
@@ -45,13 +45,7 @@ export function renderSVG(variant, px) {
   const tildeStroke = variant.tildeStroke || variant.stroke;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 100 100">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="${variant.bg}"/>
-      <stop offset="100%" stop-color="${variant.bgEnd}"/>
-    </linearGradient>
-  </defs>
-  <rect width="100" height="100" fill="url(#bg)"/>
+  <rect width="100" height="100" fill="${variant.bg}"/>
   <path d="${radicalPath(g)}" fill="none" stroke="${variant.stroke}" stroke-width="${g.strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${tildePath(g)}" fill="none" stroke="${tildeStroke}" stroke-width="${g.strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;
