@@ -40,12 +40,21 @@ export function tildePath(g = GEOMETRY) {
 }
 
 // Render the icon as a self-contained SVG string at the given pixel size.
+// Uses a subtle diagonal background gradient (bg → bgEnd) to mirror the
+// auto-gradient that iOS 26 / macOS 26 apply to Liquid Glass icons.
 export function renderSVG(variant, px) {
   const g = GEOMETRY;
   const tildeStroke = variant.tildeStroke || variant.stroke;
+  const bgEnd = variant.bgEnd || variant.bg;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="${variant.bg}"/>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="${variant.bg}"/>
+      <stop offset="100%" stop-color="${bgEnd}"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" fill="url(#bg)"/>
   <path d="${radicalPath(g)}" fill="none" stroke="${variant.stroke}" stroke-width="${g.strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${tildePath(g)}" fill="none" stroke="${tildeStroke}" stroke-width="${g.strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>`;

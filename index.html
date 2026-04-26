@@ -35,8 +35,8 @@
 <footer>Run <code>npm run build</code> in the repo root to render PNG iconsets for all variants.</footer>
 
 <script type="module">
-import { VARIANTS } from './src/variants.js?v=3';
-import { renderSVG } from './src/geometry.js?v=3';
+import { VARIANTS } from './src/variants.js?v=4';
+import { renderSVG } from './src/geometry.js?v=4';
 
 const grid = document.getElementById('grid');
 for (const v of VARIANTS) {
@@ -54,6 +54,7 @@ for (const v of VARIANTS) {
     </div>
     <div class="swatches">
       <div class="sw" style="background:${v.bg}" title="bg ${v.bg}"></div>
+      ${v.bgEnd ? `<div class="sw" style="background:${v.bgEnd}" title="bgEnd ${v.bgEnd}"></div>` : ''}
       <div class="sw" style="background:${v.stroke}" title="stroke ${v.stroke}"></div>
       ${v.tildeStroke ? `<div class="sw" style="background:${v.tildeStroke}" title="tildeStroke ${v.tildeStroke}"></div>` : ''}
     </div>`;

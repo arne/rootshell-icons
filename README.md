@@ -29,7 +29,7 @@ Coordinates are in a 100×100 viewBox. Stroke width is 6, round caps, round join
 
 ## The 12 variants
 
-Defined in `src/variants.js`. Each entry is `{ id, name, bg, stroke, tildeStroke? }`:
+Defined in `src/variants.js`. Each entry is `{ id, name, bg, bgEnd, stroke, tildeStroke? }`. `bg → bgEnd` is a subtle diagonal gradient that mirrors the auto-gradient iOS 26 applies to Liquid Glass icons:
 
 | # | id | Style |
 |---|---|---|
@@ -51,7 +51,7 @@ Defined in `src/variants.js`. Each entry is `{ id, name, bg, stroke, tildeStroke
 ```js
 // src/variants.js
 { id: '13-my-variant', name: 'My variant',
-  bg: '#...', stroke: '#...', tildeStroke: '#...' }
+  bg: '#...', bgEnd: '#...', stroke: '#...', tildeStroke: '#...' }
 ```
 
 Then `npm run build`. New folder appears under `icons/`.
