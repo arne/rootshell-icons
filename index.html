@@ -26,7 +26,7 @@
   .icon[data-mode="svg"] .glass-render { display: none; }
   .icon[data-mode="glass"] .svg-render { display: none; }
   /* Liquid Glass approximation */
-  .glass-render { display: block; }
+  .glass-render > * { position: absolute; inset: 0; }
   .glass-bg { z-index: 0; }
   .glass-tilde { z-index: 1; filter: drop-shadow(0 0.5% 0 rgba(0,0,0,0.25)); }
   .glass-radical { z-index: 2;
@@ -60,8 +60,8 @@
 <footer>Run <code>npm run build</code> in the repo root to render PNG iconsets and <code>AppIcon.icon</code> bundles for all variants. The Liquid Glass tab is an in-browser approximation — actual rendering happens on iOS 26+ / macOS 26+.</footer>
 
 <script type="module">
-import { VARIANTS } from './src/variants.js?v=5';
-import { renderSVG } from './src/geometry.js?v=5';
+import { VARIANTS } from './src/variants.js?v=6';
+import { renderSVG } from './src/geometry.js?v=6';
 
 // Pull the outlined glyph paths from the layer SVGs once.
 async function loadGlyphPaths() {
