@@ -54,18 +54,21 @@
   <defs>
     <filter id="glass-bevel" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="alpha-blur"/>
-      <feOffset in="alpha-blur" dx="0.7" dy="0.9" result="alpha-shifted"/>
+      <feOffset in="alpha-blur" dx="0.6" dy="0.8" result="alpha-shifted"/>
       <feComposite in="alpha-shifted" in2="SourceAlpha" operator="out" result="inner-mask"/>
-      <feFlood flood-color="black" flood-opacity="0.55" result="dark"/>
+      <feFlood flood-color="black" flood-opacity="0.4" result="dark"/>
       <feComposite in="dark" in2="inner-mask" operator="in" result="inner-shadow"/>
-      <feSpecularLighting in="alpha-blur" surfaceScale="2.5" specularConstant="0.85" specularExponent="22" lighting-color="white" result="spec">
+      <feSpecularLighting in="alpha-blur" surfaceScale="1.6" specularConstant="0.45" specularExponent="28" lighting-color="white" result="spec">
         <feDistantLight azimuth="135" elevation="55"/>
       </feSpecularLighting>
       <feComposite in="spec" in2="SourceAlpha" operator="in" result="spec-masked"/>
+      <feComponentTransfer in="spec-masked" result="spec-soft">
+        <feFuncA type="linear" slope="0.7"/>
+      </feComponentTransfer>
       <feMerge>
         <feMergeNode in="SourceGraphic"/>
         <feMergeNode in="inner-shadow"/>
-        <feMergeNode in="spec-masked"/>
+        <feMergeNode in="spec-soft"/>
       </feMerge>
     </filter>
   </defs>
@@ -82,8 +85,8 @@
 <footer>Run <code>npm run build</code> in the repo root to render PNG iconsets and <code>AppIcon.icon</code> bundles for all variants. The Liquid Glass tab is an in-browser approximation — actual rendering happens on iOS 26+ / macOS 26+.</footer>
 
 <script type="module">
-import { VARIANTS } from './src/variants.js?v=7';
-import { renderSVG } from './src/geometry.js?v=7';
+import { VARIANTS } from './src/variants.js?v=8';
+import { renderSVG } from './src/geometry.js?v=8';
 
 // Pull the outlined glyph paths from the layer SVGs once.
 async function loadGlyphPaths() {
