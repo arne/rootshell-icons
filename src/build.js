@@ -11,6 +11,7 @@ import sharp from 'sharp';
 import { VARIANTS } from './variants.js';
 import { IOS_ICONS, MAC_ICONS, PREVIEW_SIZES } from './sizes.js';
 import { renderSVG } from './geometry.js';
+import { writeIconBundle } from './bundles.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -76,6 +77,10 @@ async function renderVariant(variant) {
 
   // SVG source (handy for re-rendering or pasting into Figma)
   await fs.writeFile(path.join(root, 'icon.svg'), renderSVG(variant, 1024));
+
+  // iOS 26+ / Liquid Glass .icon bundle (uses icon.icon/ as a template,
+  // swaps the fill colours per variant).
+  await writeIconBundle(variant, root);
 
   return { id: variant.id, sizes: allPx.size };
 }

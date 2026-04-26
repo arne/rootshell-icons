@@ -4,7 +4,8 @@ App icon for **RootShell** — the radical (√) of the unknown (~). A square ro
 
 This repo holds 12 terminal-theme colorway variants and a one-command generator that emits:
 
-- **iOS** `AppIcon.appiconset/` folders (drop into Xcode asset catalog)
+- **iOS 26+** `AppIcon.icon/` Liquid Glass bundles (vector layers + `icon.json`)
+- **iOS (legacy)** `AppIcon.appiconset/` folders (drop into Xcode asset catalog)
 - **macOS** `rootshell.iconset/` folders → `.icns` via `iconutil`
 - Preview PNGs at 180 / 512 / 1024 px
 
@@ -60,6 +61,11 @@ Then `npm run build`. New folder appears under `icons/`.
 
 ```
 icons/01-solarized-dark/
+├── AppIcon.icon/                   # iOS 26+ Liquid Glass bundle
+│   ├── icon.json
+│   └── Assets/
+│       ├── radical.svg
+│       └── tilde.svg
 ├── AppIcon.appiconset/
 │   ├── Contents.json
 │   ├── Icon-iphone-20-2x.png       (40px)
