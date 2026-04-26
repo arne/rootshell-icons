@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
+     fill="none" stroke="currentColor" stroke-width="6"
+     stroke-linecap="round" stroke-linejoin="round"
+     role="img" aria-label="RootShell">
+  <path d="M 12 61 L 22 77 L 36 20 L 58 20"/>
+  <path d="M 39.5 51 C 43.625 40.333 51.875 40.333 56 51 C 60.125 61.667 68.375 61.667 72.5 51"/>
+</svg>
