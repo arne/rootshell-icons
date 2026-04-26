@@ -34,13 +34,17 @@ async function renderVariant(variant) {
     ...PREVIEW_SIZES,
   ]);
 
-  // Render each unique size from the SVG (sharp rasterizes via librsvg/resvg).
-  // We render at the exact target px so each size is crisp — no downsampling artifacts.
+  // Render the SVG once at a high master resolution, then resize down to each
+  // target px with lanczos3. Supersampling avoids the jaggy edges librsvg
+  // produces when rasterizing thin strokes directly at small sizes.
+  // Output is palettised PNG (libimagequant) — flat-color icons compress 4–6×
+  // smaller than truecolor RGBA at no visible loss.
+  const masterSvg = renderSVG(variant, 1024);
   const buffers = {};
   await Promise.all([...allPx].map(async (px) => {
-    const svg = renderSVG(variant, px);
-    buffers[px] = await sharp(Buffer.from(svg))
-      .png({ compressionLevel: 9 })
+    buffers[px] = await sharp(Buffer.from(masterSvg))
+      .resize(px, px, { kernel: 'lanczos3' })
+      .png({ compressionLevel: 9, palette: true, effort: 10 })
       .toBuffer();
   }));
 
