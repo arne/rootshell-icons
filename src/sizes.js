@@ -18,7 +18,6 @@ export const IOS_ICONS = [
   { size: '40',   scale: 2, px: 80,   idiom: 'ipad',          file: 'Icon-ipad-40-2x.png' },
   { size: '76',   scale: 2, px: 152,  idiom: 'ipad',          file: 'Icon-ipad-76-2x.png' },
   { size: '83.5', scale: 2, px: 167,  idiom: 'ipad',          file: 'Icon-ipad-83.5-2x.png' },
-  { size: '1024', scale: 1, px: 1024, idiom: 'ios-marketing', file: 'Icon-marketing-1024.png' },
 ];
 
 // macOS .iconset sizes. iconutil expects exactly these filenames (with @2x).
