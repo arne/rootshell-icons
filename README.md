@@ -76,13 +76,9 @@ icons/01-solarized-dark/
 │   ├── Icon-iphone-40-3x.png       (120px)
 │   ├── Icon-iphone-60-2x.png       (120px)
 │   ├── Icon-iphone-60-3x.png       (180px)
-│   ├── Icon-ipad-20-1x.png         (20px)
 │   ├── Icon-ipad-20-2x.png         (40px)
-│   ├── Icon-ipad-29-1x.png         (29px)
 │   ├── Icon-ipad-29-2x.png         (58px)
-│   ├── Icon-ipad-40-1x.png         (40px)
 │   ├── Icon-ipad-40-2x.png         (80px)
-│   ├── Icon-ipad-76-2x.png         (152px)
 │   └── Icon-ipad-83.5-2x.png       (167px)
 ├── rootshell.iconset/
 │   ├── icon_16x16.png

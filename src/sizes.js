@@ -10,13 +10,9 @@ export const IOS_ICONS = [
   { size: '40',   scale: 3, px: 120,  idiom: 'iphone',        file: 'Icon-iphone-40-3x.png' },
   { size: '60',   scale: 2, px: 120,  idiom: 'iphone',        file: 'Icon-iphone-60-2x.png' },
   { size: '60',   scale: 3, px: 180,  idiom: 'iphone',        file: 'Icon-iphone-60-3x.png' },
-  { size: '20',   scale: 1, px: 20,   idiom: 'ipad',          file: 'Icon-ipad-20-1x.png' },
   { size: '20',   scale: 2, px: 40,   idiom: 'ipad',          file: 'Icon-ipad-20-2x.png' },
-  { size: '29',   scale: 1, px: 29,   idiom: 'ipad',          file: 'Icon-ipad-29-1x.png' },
   { size: '29',   scale: 2, px: 58,   idiom: 'ipad',          file: 'Icon-ipad-29-2x.png' },
-  { size: '40',   scale: 1, px: 40,   idiom: 'ipad',          file: 'Icon-ipad-40-1x.png' },
   { size: '40',   scale: 2, px: 80,   idiom: 'ipad',          file: 'Icon-ipad-40-2x.png' },
-  { size: '76',   scale: 2, px: 152,  idiom: 'ipad',          file: 'Icon-ipad-76-2x.png' },
   { size: '83.5', scale: 2, px: 167,  idiom: 'ipad',          file: 'Icon-ipad-83.5-2x.png' },
 ];
 
