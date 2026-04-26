@@ -77,12 +77,14 @@ const tilde = [
   ...flattenCubic([cx, cy], [cx + halfW*0.25, cy + cpA], [cx + halfW*0.75, cy + cpA], [x3, cy], SUBDIV).slice(1),
 ];
 
-const d = outlinePolyline(radical, R) + outlinePolyline(tilde, R);
+const radicalD = outlinePolyline(radical, R);
+const tildeD   = outlinePolyline(tilde, R);
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
      role="img" aria-label="RootShell">
-  <path d="${d}" fill="currentColor" fill-rule="nonzero"/>
+  <path id="radical" d="${radicalD}" fill="currentColor" fill-rule="nonzero"/>
+  <path id="tilde"   d="${tildeD}"   fill="currentColor" fill-rule="nonzero"/>
 </svg>
 `;
 
