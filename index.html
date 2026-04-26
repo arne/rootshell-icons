@@ -28,9 +28,8 @@
   /* Liquid Glass approximation */
   .glass-render > * { position: absolute; inset: 0; }
   .glass-bg { z-index: 0; }
-  .glass-tilde { z-index: 1; filter: drop-shadow(0 0.5% 0 rgba(0,0,0,0.25)); }
-  .glass-radical { z-index: 2;
-    filter: drop-shadow(0 0.8% 0 rgba(0,0,0,0.35)) drop-shadow(0 -0.3% 0 rgba(255,255,255,0.18)); }
+  .glass-tilde   { z-index: 1; filter: url(#glass-bevel); }
+  .glass-radical { z-index: 2; filter: url(#glass-bevel); }
   .glass-specular { z-index: 3; pointer-events: none;
     background:
       radial-gradient(ellipse 65% 50% at 28% 18%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 55%),
@@ -38,6 +37,7 @@
     mix-blend-mode: screen; }
   .glass-rim { z-index: 4; pointer-events: none;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.25); }
+  .filter-defs { position: absolute; width: 0; height: 0; pointer-events: none; }
   .meta { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
   .id { font-size: 11px; opacity: 0.45; letter-spacing: 0.04em; }
   .name { font-size: 12px; opacity: 0.85; }
@@ -48,6 +48,28 @@
 </style>
 </head>
 <body>
+<!-- Shared SVG filter for the Liquid Glass approximation: inner shadow on
+     bottom-right + specular highlight from upper-left, masked to the shape. -->
+<svg class="filter-defs" aria-hidden="true">
+  <defs>
+    <filter id="glass-bevel" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="alpha-blur"/>
+      <feOffset in="alpha-blur" dx="0.7" dy="0.9" result="alpha-shifted"/>
+      <feComposite in="alpha-shifted" in2="SourceAlpha" operator="out" result="inner-mask"/>
+      <feFlood flood-color="black" flood-opacity="0.55" result="dark"/>
+      <feComposite in="dark" in2="inner-mask" operator="in" result="inner-shadow"/>
+      <feSpecularLighting in="alpha-blur" surfaceScale="2.5" specularConstant="0.85" specularExponent="22" lighting-color="white" result="spec">
+        <feDistantLight azimuth="135" elevation="55"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="spec-masked"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="inner-shadow"/>
+        <feMergeNode in="spec-masked"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
 <header>
   <h1>RootShell — icon variants</h1>
   <p class="lede">√~ — twelve terminal-theme colorways. Geometry shared from <code>src/geometry.js</code>; colors from <code>src/variants.js</code>.</p>
@@ -60,8 +82,8 @@
 <footer>Run <code>npm run build</code> in the repo root to render PNG iconsets and <code>AppIcon.icon</code> bundles for all variants. The Liquid Glass tab is an in-browser approximation — actual rendering happens on iOS 26+ / macOS 26+.</footer>
 
 <script type="module">
-import { VARIANTS } from './src/variants.js?v=6';
-import { renderSVG } from './src/geometry.js?v=6';
+import { VARIANTS } from './src/variants.js?v=7';
+import { renderSVG } from './src/geometry.js?v=7';
 
 // Pull the outlined glyph paths from the layer SVGs once.
 async function loadGlyphPaths() {
