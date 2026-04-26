@@ -10,13 +10,34 @@
     font: 14px/1.5 ui-monospace, 'JetBrains Mono', Menlo, monospace; }
   header { padding: 32px 48px 24px; border-bottom: 1px solid #221f1a; }
   h1 { margin: 0 0 6px; font: 600 22px/1.2 ui-sans-serif, system-ui, sans-serif; letter-spacing: -0.01em; }
-  p.lede { margin: 0; opacity: 0.6; max-width: 60ch; }
+  p.lede { margin: 0 0 20px; opacity: 0.6; max-width: 60ch; }
+  .tabs { display: inline-flex; gap: 2px; padding: 3px; background: #1a1814; border-radius: 999px; }
+  .tab { background: transparent; border: 0; color: inherit; opacity: 0.55;
+    padding: 6px 14px; border-radius: 999px; font: inherit; cursor: pointer; transition: opacity 0.15s, background 0.15s; }
+  .tab:hover { opacity: 0.85; }
+  .tab.active { background: #2a2620; opacity: 1; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 32px; padding: 32px 48px 64px; }
   .card { display: flex; flex-direction: column; gap: 12px; }
-  .icon { aspect-ratio: 1/1; border-radius: 22.37%;
+  .icon { position: relative; aspect-ratio: 1/1; border-radius: 22.37%;
     overflow: hidden; box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 24px -12px rgba(0,0,0,0.6); }
+  .icon > * { position: absolute; inset: 0; }
   .icon svg { display: block; width: 100%; height: 100%; }
+  .icon[data-mode="svg"] .glass-render { display: none; }
+  .icon[data-mode="glass"] .svg-render { display: none; }
+  /* Liquid Glass approximation */
+  .glass-render { display: block; }
+  .glass-bg { z-index: 0; }
+  .glass-tilde { z-index: 1; filter: drop-shadow(0 0.5% 0 rgba(0,0,0,0.25)); }
+  .glass-radical { z-index: 2;
+    filter: drop-shadow(0 0.8% 0 rgba(0,0,0,0.35)) drop-shadow(0 -0.3% 0 rgba(255,255,255,0.18)); }
+  .glass-specular { z-index: 3; pointer-events: none;
+    background:
+      radial-gradient(ellipse 65% 50% at 28% 18%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 55%),
+      radial-gradient(ellipse 80% 80% at 75% 90%, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 55%);
+    mix-blend-mode: screen; }
+  .glass-rim { z-index: 4; pointer-events: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.25); }
   .meta { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
   .id { font-size: 11px; opacity: 0.45; letter-spacing: 0.04em; }
   .name { font-size: 12px; opacity: 0.85; }
@@ -30,21 +51,57 @@
 <header>
   <h1>RootShell — icon variants</h1>
   <p class="lede">√~ — twelve terminal-theme colorways. Geometry shared from <code>src/geometry.js</code>; colors from <code>src/variants.js</code>.</p>
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-mode="svg">Flat SVG</button>
+    <button class="tab" data-mode="glass">Liquid Glass</button>
+  </div>
 </header>
 <div class="grid" id="grid"></div>
-<footer>Run <code>npm run build</code> in the repo root to render PNG iconsets for all variants.</footer>
+<footer>Run <code>npm run build</code> in the repo root to render PNG iconsets and <code>AppIcon.icon</code> bundles for all variants. The Liquid Glass tab is an in-browser approximation — actual rendering happens on iOS 26+ / macOS 26+.</footer>
 
 <script type="module">
-import { VARIANTS } from './src/variants.js?v=4';
-import { renderSVG } from './src/geometry.js?v=4';
+import { VARIANTS } from './src/variants.js?v=5';
+import { renderSVG } from './src/geometry.js?v=5';
+
+// Pull the outlined glyph paths from the layer SVGs once.
+async function loadGlyphPaths() {
+  const extract = txt => txt.match(/<path[^>]*\sd="([^"]+)"/)[1];
+  const [r, t] = await Promise.all([
+    fetch('./radical.svg?v=5').then(r => r.text()).then(extract),
+    fetch('./tilde.svg?v=5').then(r => r.text()).then(extract),
+  ]);
+  return { radical: r, tilde: t };
+}
+
+function renderGlass(v, paths) {
+  const tilde = v.tildeStroke || v.stroke;
+  const bgEnd = v.bgEnd || v.bg;
+  return `
+    <div class="glass-bg" style="background: linear-gradient(135deg, ${v.bg} 0%, ${bgEnd} 100%);"></div>
+    <svg class="glass-tilde" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <path d="${paths.tilde}" fill="${tilde}" fill-rule="nonzero"/>
+    </svg>
+    <svg class="glass-radical" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+      <path d="${paths.radical}" fill="${v.stroke}" fill-rule="nonzero"/>
+    </svg>
+    <div class="glass-specular"></div>
+    <div class="glass-rim"></div>
+  `;
+}
 
 const grid = document.getElementById('grid');
+const paths = await loadGlyphPaths();
+
 for (const v of VARIANTS) {
   const card = document.createElement('div');
   card.className = 'card';
   const icon = document.createElement('div');
   icon.className = 'icon';
-  icon.innerHTML = renderSVG(v, 220);
+  icon.dataset.mode = 'svg';
+  icon.innerHTML = `
+    <div class="svg-render">${renderSVG(v, 220)}</div>
+    <div class="glass-render">${renderGlass(v, paths)}</div>
+  `;
   const meta = document.createElement('div');
   meta.className = 'meta';
   meta.innerHTML = `
@@ -61,6 +118,14 @@ for (const v of VARIANTS) {
   card.append(icon, meta);
   grid.append(card);
 }
+
+document.getElementById('tabs').addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  const mode = btn.dataset.mode;
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.icon').forEach(icon => icon.dataset.mode = mode);
+});
 </script>
 </body>
 </html>
