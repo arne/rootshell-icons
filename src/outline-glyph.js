@@ -80,7 +80,17 @@ const tilde = [
 const radicalD = outlinePolyline(radical, R);
 const tildeD   = outlinePolyline(tilde, R);
 
-const svg = `<?xml version="1.0" encoding="UTF-8"?>
+function svgFor(d, label) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
+     role="img" aria-label="RootShell — ${label}">
+  <path d="${d}" fill="currentColor" fill-rule="nonzero"/>
+</svg>
+`;
+}
+
+// Combined glyph — for inline UI use (single-colour rendering)
+const combined = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
      role="img" aria-label="RootShell">
   <path id="radical" d="${radicalD}" fill="currentColor" fill-rule="nonzero"/>
@@ -88,5 +98,8 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 `;
 
-writeFileSync(path.join(ROOT, 'glyph.svg'), svg);
-console.log(`Wrote glyph.svg (${svg.length} bytes)`);
+// Per-layer SVGs — drop each into Icon Composer as its own layer
+writeFileSync(path.join(ROOT, 'glyph.svg'),   combined);
+writeFileSync(path.join(ROOT, 'radical.svg'), svgFor(radicalD, 'radical'));
+writeFileSync(path.join(ROOT, 'tilde.svg'),   svgFor(tildeD,   'tilde'));
+console.log(`Wrote glyph.svg, radical.svg, tilde.svg`);
