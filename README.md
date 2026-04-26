@@ -42,7 +42,7 @@ Defined in `src/variants.js`. Each entry is `{ id, name, bg, stroke, tildeStroke
 | 07 | catppuccin | Catppuccin Mocha — text radical, peach tilde |
 | 08 | bases | Bases — muted neutral radical, green tilde |
 | 09 | mono-light | Mono Light — warm grey radical, ink tilde |
-| 10 | monokai | Monokai — green radical, orange tilde |
+| 10 | monokai | Monokai — off-white radical, pink tilde |
 | 11 | mono-dark | Mono Dark — grey radical, bone tilde |
 | 12 | rose-pine | Rosé Pine — text radical, rose tilde |
 

@@ -11,7 +11,7 @@ export const VARIANTS = [
   { id: '07-catppuccin',      name: 'Catppuccin',      bg: '#1e1e2e', stroke: '#cdd6f4', tildeStroke: '#fab387' },
   { id: '08-bases',           name: 'Bases',           bg: '#141210', stroke: '#4a4640', tildeStroke: '#48a068' },
   { id: '09-mono-light',      name: 'Mono Light',      bg: '#f5f1ea', stroke: '#7a756c', tildeStroke: '#1a1a1a' },
-  { id: '10-monokai',         name: 'Monokai',         bg: '#272822', stroke: '#a6e22e', tildeStroke: '#fd971f' },
+  { id: '10-monokai',         name: 'Monokai',         bg: '#272822', stroke: '#f8f8f2', tildeStroke: '#f92672' },
   { id: '11-mono-dark',       name: 'Mono Dark',       bg: '#0e0e0e', stroke: '#5a5a5a', tildeStroke: '#e8e6e0' },
-  { id: '12-rose-pine',       name: 'Rosé Pine',       bg: '#232136', stroke: '#e0def4', tildeStroke: '#ea9a97' },
+  { id: '12-rose-pine',       name: 'Rosé Pine',       bg: '#191724', stroke: '#e0def4', tildeStroke: '#ebbcba' },
 ];
