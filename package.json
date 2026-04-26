@@ -1,0 +1,16 @@
+{
+  "name": "rootshell-icon",
+  "version": "1.0.0",
+  "description": "App icon variants for RootShell — square root of tilde mark.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.js",
+    "icns": "node src/icns.js",
+    "clean": "rm -rf icons/*/AppIcon.appiconset icons/*/rootshell.iconset icons/*/rootshell.icns icons/*/preview-*.png"
+  },
+  "dependencies": {
+    "sharp": "^0.33.0"
+  },
+  "license": "MIT"
+}
