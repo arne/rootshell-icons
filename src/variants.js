@@ -14,7 +14,7 @@ export const VARIANTS = [
   { id: '06-tokyo-night',     name: 'Tokyo Night',     bg: '#1a1b26', top: '#292e42', radical: '#414868', prompt: '#bb9af7' },
   { id: '07-catppuccin',      name: 'Catppuccin Mocha', bg: '#1e1e2e', top: '#313244', radical: '#45475a', prompt: '#fab387' },
   { id: '08-bases',           name: 'Bases',           bg: '#141210', top: '#201e1a', radical: '#3a3630', prompt: '#48a068' },
-  { id: '09-mono-light',      name: 'Mono Light',      bg: '#f5f1ea', top: '#e6e1d4', radical: '#9a948a', prompt: '#1a1a1a' },
+  { id: '09-mono-light',      name: 'Mono Light',      bg: '#f5f1ea', top: '#e6e1d4', radical: '#85807a', prompt: '#1a1a1a' },
   { id: '10-monokai',         name: 'Monokai',         bg: '#272822', top: '#3e3d32', radical: '#75715e', prompt: '#a6e22e' },
   { id: '11-mono-dark',       name: 'Mono Dark',       bg: '#0e0e0e', top: '#1f1f1f', radical: '#3a3a3a', prompt: '#e8e6e0' },
   { id: '12-rose-pine',       name: 'Rosé Pine',       bg: '#232136', top: '#2a283e', radical: '#393552', prompt: '#ea9a97' },
