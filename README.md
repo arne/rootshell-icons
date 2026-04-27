@@ -107,7 +107,9 @@ icons/01-solarized-dark/
 
 ## Browser preview
 
-Open `index.html` via a local server (it uses ES modules):
+Live at <https://arne.github.io/rootshell-icons/>.
+
+To run locally (the page uses ES modules, so it needs a server):
 
 ```bash
 npx serve .
