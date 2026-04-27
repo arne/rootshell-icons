@@ -12,7 +12,7 @@ export const VARIANTS = [
   { id: '04-nord',            name: 'Nord',            bg: '#2e3440', top: '#3b4252', radical: '#4c566a', prompt: '#88c0d0' },
   { id: '05-gruvbox-dark',    name: 'Gruvbox Dark',    bg: '#282828', top: '#3c3836', radical: '#7c6f64', prompt: '#fabd2f' },
   { id: '06-tokyo-night',     name: 'Tokyo Night',     bg: '#1a1b26', top: '#292e42', radical: '#414868', prompt: '#bb9af7' },
-  { id: '07-catppuccin',      name: 'Catppuccin',      bg: '#1e1e2e', top: '#313244', radical: '#45475a', prompt: '#fab387' },
+  { id: '07-catppuccin',      name: 'Catppuccin Mocha', bg: '#1e1e2e', top: '#313244', radical: '#45475a', prompt: '#fab387' },
   { id: '08-bases',           name: 'Bases',           bg: '#141210', top: '#201e1a', radical: '#3a3630', prompt: '#48a068' },
   { id: '09-mono-light',      name: 'Mono Light',      bg: '#f5f1ea', top: '#e6e1d4', radical: '#9a948a', prompt: '#1a1a1a' },
   { id: '10-monokai',         name: 'Monokai',         bg: '#272822', top: '#3e3d32', radical: '#75715e', prompt: '#a6e22e' },

@@ -1,7 +1,7 @@
 {
   "name": "rootshell-icon",
   "version": "1.0.0",
-  "description": "App icon variants for RootShell — square root of tilde mark.",
+  "description": "App icon variants for RootShell — off-canvas radical with `>_` as the rooted expression.",
   "private": true,
   "type": "module",
   "scripts": {
