@@ -1,5 +1,5 @@
 // Generate per-variant iOS 26+ / Liquid Glass .icon bundles by color-swapping
-// a hand-authored `icon.icon/` template at the repo root.
+// a hand-authored `AppIcon.icon/` template at the repo root.
 //
 // Layer-name → variant-color mapping:
 //   radical   → variant.radical
@@ -7,7 +7,7 @@
 //   top-zone  → variant.top
 // The auto-gradient fill is mapped to variant.bg.
 //
-// If `icon.icon/` is absent (e.g. you haven't yet authored the v2 template in
+// If `AppIcon.icon/` is absent (e.g. you haven't yet authored the v2 template in
 // Icon Composer), this module logs a notice and skips bundle generation —
 // the rest of the build (PNG iconsets, preview PNGs) still runs normally.
 //
@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const TEMPLATE_DIR = path.join(ROOT, 'icon.icon');
+const TEMPLATE_DIR = path.join(ROOT, 'AppIcon.icon');
 
 function hexToFloats(hex) {
   const h = hex.replace('#', '');
@@ -66,7 +66,7 @@ async function loadTemplate() {
 export async function writeIconBundle(variant, variantRoot) {
   if (!existsSync(TEMPLATE_DIR)) {
     if (!warnedMissing) {
-      console.log('  (icon.icon/ template not present — skipping Liquid Glass bundle generation)');
+      console.log('  (AppIcon.icon/ template not present at repo root — skipping Liquid Glass bundle generation)');
       warnedMissing = true;
     }
     return;

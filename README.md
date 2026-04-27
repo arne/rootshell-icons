@@ -8,7 +8,7 @@ This repo holds 12 terminal-theme colorway variants and a one-command generator 
 - **macOS** — `rootshell.iconset/` → `.icns` via `iconutil`
 - **Preview PNGs** at 180 / 512 / 1024 px
 
-For **iOS 26+ Liquid Glass**, compose `radical.svg`, `prompt.svg`, and `top-zone.svg` (at the repo root) in Apple's Icon Composer, then drop the resulting `icon.icon/` bundle at the repo root. Once present, `npm run build` colour-swaps it into per-variant `AppIcon.icon/` bundles automatically (see "Liquid Glass" below).
+For **iOS 26+ Liquid Glass**, compose `radical.svg`, `prompt.svg`, and `top-zone.svg` (at the repo root) in Apple's Icon Composer, then drop the resulting `AppIcon.icon/` bundle at the repo root. Once present, `npm run build` colour-swaps it into per-variant `AppIcon.icon/` bundles automatically (see "Liquid Glass" below).
 
 ## Quick start
 
@@ -70,7 +70,7 @@ node src/outline-glyph.js   # regenerate after editing src/geometry.js
 
 ## Liquid Glass (`AppIcon.icon`)
 
-Compose the v2 layout in Icon Composer once, then export the `.icon` bundle and **drop the resulting `icon.icon/` directory at the repo root**. Layer naming convention used by `src/bundles.js`:
+Compose the v2 layout in Icon Composer once, then export the `.icon` bundle and **drop the resulting `AppIcon.icon/` directory at the repo root** (Icon Composer's default export name). Layer naming convention used by `src/bundles.js`:
 
 | Layer name in Icon Composer | Mapped from variant field |
 |---|---|
@@ -79,7 +79,7 @@ Compose the v2 layout in Icon Composer once, then export the `.icon` bundle and 
 | `top-zone` | `variant.top`     |
 | (background) `automatic-gradient` | `variant.bg` |
 
-Once `icon.icon/` is present, `npm run build` colour-swaps it into 12 per-variant `icons/<id>/AppIcon.icon/` bundles. If absent, the build prints a notice and skips bundle generation.
+Once `AppIcon.icon/` is present at the repo root, `npm run build` colour-swaps it into 12 per-variant `icons/<id>/AppIcon.icon/` bundles. If absent, the build prints a notice and skips bundle generation.
 
 ## Adding a variant
 
@@ -95,7 +95,7 @@ Then `npm run build`.
 
 ```
 icons/01-solarized-dark/
-├── AppIcon.icon/                   # iOS 26+ Liquid Glass — only if icon.icon/ template exists
+├── AppIcon.icon/                   # iOS 26+ Liquid Glass — only if AppIcon.icon/ template exists at repo root
 ├── AppIcon.appiconset/             # legacy iOS asset catalog
 ├── rootshell.iconset/              # macOS .icns inputs
 ├── rootshell.icns                  # only after `npm run icns`
