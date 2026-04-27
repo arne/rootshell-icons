@@ -36,7 +36,7 @@ Round caps, round joins. Tweak `src/geometry.js` and rerun `npm run build`.
 
 ## The 12 variants
 
-Defined in `src/variants.js`. Each entry is `{ id, name, bg, top, radical, prompt }`. Gradient bottom stops are auto-derived (≈8% HSL lightness drop).
+Defined in `src/variants.js`. Each entry is `{ id, name, bg, top, radical, prompt }` — flat colors throughout.
 
 | # | id | Style |
 |---|---|---|

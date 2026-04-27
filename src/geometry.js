@@ -47,67 +47,19 @@ export function underscorePath(g = GEOMETRY) {
   return `M ${g.underscoreLeftX} ${g.underscoreLeftY} L ${g.underscoreRightX} ${g.underscoreRightY}`;
 }
 
-// Darken a hex color by `amount` in HSL lightness (0..1). Used to derive the
-// bottom stop of each gradient — cheap, deterministic, no manual second-color
-// per variant.
-function darken(hex, amount = 0.08) {
-  const h = hex.replace('#', '');
-  const r = parseInt(h.slice(0, 2), 16) / 255;
-  const g = parseInt(h.slice(2, 4), 16) / 255;
-  const b = parseInt(h.slice(4, 6), 16) / 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let hue = 0, sat = 0;
-  let lit = (max + min) / 2;
-  if (max !== min) {
-    const d = max - min;
-    sat = lit > 0.5 ? d / (2 - max - min) : d / (max + min);
-    if (max === r)      hue = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-    else if (max === g) hue = ((b - r) / d + 2) / 6;
-    else                hue = ((r - g) / d + 4) / 6;
-  }
-  lit = Math.max(0, lit - amount);
-  const hueToRgb = (p, q, t) => {
-    if (t < 0) t += 1;
-    if (t > 1) t -= 1;
-    if (t < 1/6) return p + (q - p) * 6 * t;
-    if (t < 1/2) return q;
-    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-    return p;
-  };
-  const q = lit < 0.5 ? lit * (1 + sat) : lit + sat - lit * sat;
-  const p = 2 * lit - q;
-  const r2 = hueToRgb(p, q, hue + 1/3);
-  const g2 = hueToRgb(p, q, hue);
-  const b2 = hueToRgb(p, q, hue - 1/3);
-  const toHex = n => Math.round(n * 255).toString(16).padStart(2, '0');
-  return `#${toHex(r2)}${toHex(g2)}${toHex(b2)}`;
-}
-
 // Render the icon as a self-contained SVG string at the given pixel size.
 // Layer order (bottom → top):
-//   1. bg gradient rect       (variant.bg → darken(variant.bg))
-//   2. top-zone polygon       (variant.top → darken(variant.top))
+//   1. bg rect                (flat variant.bg)
+//   2. top-zone polygon       (flat variant.top)
 //   3. radical polyline       (stroked, off-canvas)
 //   4. chevron polyline       (stroked)
 //   5. underscore segment     (stroked)
 export function renderSVG(variant, px) {
   const g = GEOMETRY;
-  const bgEnd = darken(variant.bg);
-  const topEnd = darken(variant.top);
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 100 100">
-  <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${variant.bg}"/>
-      <stop offset="100%" stop-color="${bgEnd}"/>
-    </linearGradient>
-    <linearGradient id="top" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="${variant.top}"/>
-      <stop offset="100%" stop-color="${topEnd}"/>
-    </linearGradient>
-  </defs>
-  <rect width="100" height="100" fill="url(#bg)"/>
-  <polygon points="${topZonePolygon(g)}" fill="url(#top)"/>
+  <rect width="100" height="100" fill="${variant.bg}"/>
+  <polygon points="${topZonePolygon(g)}" fill="${variant.top}"/>
   <path d="${radicalPath(g)}" fill="none" stroke="${variant.radical}" stroke-width="${g.radicalStrokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${chevronPath(g)}" fill="none" stroke="${variant.prompt}" stroke-width="${g.promptStrokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="${underscorePath(g)}" fill="none" stroke="${variant.prompt}" stroke-width="${g.promptStrokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
