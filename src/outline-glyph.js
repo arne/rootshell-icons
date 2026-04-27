@@ -1,13 +1,15 @@
-// Generates a stroke-free glyph.svg by outlining the radical + tilde
-// geometry into filled shapes. Icon Composer (iOS 26 / Liquid Glass)
-// renders strokes inconsistently — filled paths render correctly.
+// Generates stroke-free per-layer SVGs for Icon Composer.
+// Icon Composer (iOS 26 / Liquid Glass) renders strokes inconsistently —
+// filled paths render correctly. Each stroked element here is converted to
+// a union of overlapping rectangles (segments) and discs (vertices/caps).
 //
-// Approach: union of overlapping primitives with fill-rule=nonzero.
-//   - each line segment → rectangle
-//   - each vertex / cap   → circle
-//   - bezier curves are flattened to a high-resolution polyline first
+// Run: node src/outline-glyph.js
 //
-// Run:  node src/outline-glyph.js  (writes ./glyph.svg)
+// Output (all at repo root):
+//   radical.svg   — outlined polyline (filled)
+//   prompt.svg    — outlined chevron + outlined underscore (filled, combined)
+//   top-zone.svg  — closed polygon (already a fill — no outlining needed)
+//   glyph.svg     — combined radical + prompt (single-color, for inline UI)
 
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -16,9 +18,7 @@ import { GEOMETRY } from './geometry.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-
 const g = GEOMETRY;
-const R = g.strokeWidth / 2;
 
 const add  = (a, b) => [a[0] + b[0], a[1] + b[1]];
 const sub  = (a, b) => [a[0] - b[0], a[1] - b[1]];
@@ -38,18 +38,6 @@ function disc(p, r) {
   return `M${f(cx-r)} ${f(cy)}A${r} ${r} 0 1 0 ${f(cx+r)} ${f(cy)}A${r} ${r} 0 1 0 ${f(cx-r)} ${f(cy)}Z`;
 }
 
-function flattenCubic(p0, p1, p2, p3, n) {
-  const pts = [];
-  for (let i = 0; i <= n; i++) {
-    const t = i / n, u = 1 - t;
-    pts.push([
-      u*u*u*p0[0] + 3*u*u*t*p1[0] + 3*u*t*t*p2[0] + t*t*t*p3[0],
-      u*u*u*p0[1] + 3*u*u*t*p1[1] + 3*u*t*t*p2[1] + t*t*t*p3[1],
-    ]);
-  }
-  return pts;
-}
-
 function outlinePolyline(pts, r) {
   const parts = [];
   for (let i = 0; i < pts.length - 1; i++) parts.push(rect(pts[i], pts[i+1], r));
@@ -57,30 +45,29 @@ function outlinePolyline(pts, r) {
   return parts.join('');
 }
 
-// Radical — checkmark + vinculum
-const radical = [
+const radicalPts = [
   [g.tickStartX,  g.tickStartY],
   [g.tickBottomX, g.tickBottomY],
   [g.peakX,       g.peakY],
   [g.vincEndX,    g.vincEndY],
 ];
+const radicalD = outlinePolyline(radicalPts, g.radicalStrokeWidth / 2);
 
-// Tilde — two cubic beziers, sampled densely, joined into a polyline
-const cx = g.tildeCenterX, cy = g.tildeCenterY;
-const halfW = g.tildeWidth / 2;
-const cpA = g.tildeAmp * (4/3);
-const x0 = cx - halfW, x3 = cx + halfW;
-
-const SUBDIV = 48; // per cubic; total tilde polyline = 2*48 + 1 = 97 points
-const tilde = [
-  ...flattenCubic([x0, cy], [x0 + halfW*0.25, cy - cpA], [x0 + halfW*0.75, cy - cpA], [cx, cy], SUBDIV),
-  ...flattenCubic([cx, cy], [cx + halfW*0.25, cy + cpA], [cx + halfW*0.75, cy + cpA], [x3, cy], SUBDIV).slice(1),
+const chevronPts = [
+  [g.chevronTopX,    g.chevronTopY],
+  [g.chevronApexX,   g.chevronApexY],
+  [g.chevronBottomX, g.chevronBottomY],
 ];
+const underscorePts = [
+  [g.underscoreLeftX,  g.underscoreLeftY],
+  [g.underscoreRightX, g.underscoreRightY],
+];
+const promptD = outlinePolyline(chevronPts, g.promptStrokeWidth / 2)
+              + outlinePolyline(underscorePts, g.promptStrokeWidth / 2);
 
-const radicalD = outlinePolyline(radical, R);
-const tildeD   = outlinePolyline(tilde, R);
+const topZonePoints = g.topZone.map(p => `${f(p[0])},${f(p[1])}`).join(' ');
 
-function svgFor(d, label) {
+function svgPath(d, label) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
      role="img" aria-label="RootShell — ${label}">
@@ -89,17 +76,23 @@ function svgFor(d, label) {
 `;
 }
 
-// Combined glyph — for inline UI use (single-colour rendering)
+const topZoneSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
+     role="img" aria-label="RootShell — top zone">
+  <polygon points="${topZonePoints}" fill="currentColor"/>
+</svg>
+`;
+
 const combined = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024"
      role="img" aria-label="RootShell">
   <path id="radical" d="${radicalD}" fill="currentColor" fill-rule="nonzero"/>
-  <path id="tilde"   d="${tildeD}"   fill="currentColor" fill-rule="nonzero"/>
+  <path id="prompt"  d="${promptD}"  fill="currentColor" fill-rule="nonzero"/>
 </svg>
 `;
 
-// Per-layer SVGs — drop each into Icon Composer as its own layer
-writeFileSync(path.join(ROOT, 'glyph.svg'),   combined);
-writeFileSync(path.join(ROOT, 'radical.svg'), svgFor(radicalD, 'radical'));
-writeFileSync(path.join(ROOT, 'tilde.svg'),   svgFor(tildeD,   'tilde'));
-console.log(`Wrote glyph.svg, radical.svg, tilde.svg`);
+writeFileSync(path.join(ROOT, 'glyph.svg'),    combined);
+writeFileSync(path.join(ROOT, 'radical.svg'),  svgPath(radicalD, 'radical'));
+writeFileSync(path.join(ROOT, 'prompt.svg'),   svgPath(promptD,  'prompt'));
+writeFileSync(path.join(ROOT, 'top-zone.svg'), topZoneSvg);
+console.log('Wrote glyph.svg, radical.svg, prompt.svg, top-zone.svg');
